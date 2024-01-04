@@ -11,24 +11,25 @@ namespace DefaultNamespace
 		private void Awake() =>
 			_transform = transform;
 
-		public void MoveToBase(Vector3 basePosition) =>
-			StartCoroutine(MoveToBaseCoroutine(basePosition));
+		public void MoveToBase(Transform baseTransform) =>
+			StartCoroutine(MoveToBaseCoroutine(baseTransform));
 
-		private IEnumerator MoveToBaseCoroutine(Vector3 basePosition)
+		private IEnumerator MoveToBaseCoroutine(Transform baseTransform)
 		{
-			while (_transform.position != basePosition)
+			// Vector3.Distance(_transform.position, baseTransform.position) > 0.1f
+			while (true)
 			{
 				_transform.position = Vector3.MoveTowards(_transform.position,
-					basePosition,
+					baseTransform.position,
 					0.1f);
 
-				Rotate(basePosition);
+				Rotate(baseTransform.position);
 
 				yield return null;
 			}
 		}
 
 		private void Rotate(Vector3 basePosition) =>
-			_transform.rotation = Quaternion.LookRotation(basePosition);
+			_transform.forward = Vector3.Lerp(_transform.forward, basePosition - _transform.position, Time.deltaTime);
 	}
 }
