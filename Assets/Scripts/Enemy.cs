@@ -6,8 +6,9 @@ namespace DefaultNamespace
 {
 	public class Enemy : MonoBehaviour
 	{
+		[SerializeField] private float _speed;
+		
 		private Transform _transform;
-
 		private void Awake() =>
 			_transform = transform;
 
@@ -16,12 +17,11 @@ namespace DefaultNamespace
 
 		private IEnumerator MoveToBaseCoroutine(Transform baseTransform)
 		{
-			// Vector3.Distance(_transform.position, baseTransform.position) > 0.1f
 			while (true)
 			{
 				_transform.position = Vector3.MoveTowards(_transform.position,
 					baseTransform.position,
-					0.1f);
+					_speed * Time.deltaTime);
 
 				Rotate(baseTransform.position);
 

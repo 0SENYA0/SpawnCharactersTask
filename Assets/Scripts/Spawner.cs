@@ -7,11 +7,11 @@ namespace DefaultNamespace
 	public class Spawner : MonoBehaviour
 	{
 		[SerializeField] private List<SpawnPoint> _spawnPoints;
-
+		private float _spawnDelay = 2f;
 		private WaitForSeconds _waitForSeconds;
 
 		private void Awake() =>
-			_waitForSeconds = new WaitForSeconds(2f);
+			_waitForSeconds = new WaitForSeconds(_spawnDelay);
 
 		private void Start() =>
 			StartCoroutine(InstantiateEnemyCoroutine());
